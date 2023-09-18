@@ -1,0 +1,8 @@
+spack:
+    specs:
+        - mpich@3.2
+        - netcdf-fortran
+        - yaxt@0.9.0 idxtype=long
+        - xios@2.5.2252
+        - pfunit@3 max_array_rank=6 +mpi +openmp
+        - fcm
