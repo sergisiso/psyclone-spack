@@ -42,7 +42,7 @@ class Pfunit(CMakePackage):
         description="Max number of Fortran dimensions of array asserts",
     )
 
-    depends_on("python@2.7:", type=("build", "run"))  # python3 too!
+    depends_on("python@2.7:", type=("build"))
     depends_on("mpi", when="+mpi")
     depends_on("m4", when="@4.1.5:", type="build")
 
@@ -78,7 +78,6 @@ class Pfunit(CMakePackage):
     def cmake_args(self):
         spec = self.spec
         args = [
-            "-DPYTHON_EXECUTABLE=%s" % spec["python"].command,
             self.define_from_variant("BUILD_SHARED", "shared"),
             "-DCMAKE_Fortran_MODULE_DIRECTORY=%s" % spec.prefix.include,
             self.define_from_variant("BUILD_DOCS", "docs"),

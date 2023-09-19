@@ -31,5 +31,6 @@ class Yaxt(AutotoolsPackage):
     def configure_args(self):
         options = []
         options.append('--with-idxtype='+self.spec.variants['idxtype'].value)
+        options.append('--without-regard-for-quality')
 
         return options

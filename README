@@ -12,7 +12,7 @@ To install the latest version of Spack with:
 
 Install the compilers (alternatively point to locally installed compilers):
 ```
-spack install gcc
+spack install gcc%11.2.0+nvptx
 spack install intel-oneapi-compilers
 spack install nvhpc
 ```
@@ -39,7 +39,7 @@ packages (e.g. all the dependencies needed to build an application)
 
 ```bash
 # Create lfric environment
-spack env create lfric spack.yaml
+spack env create lfric-gnu environments/lfric.yaml
 spack env activate
 
 # Install necessary packages
