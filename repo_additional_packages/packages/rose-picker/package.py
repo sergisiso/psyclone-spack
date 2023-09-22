@@ -7,13 +7,14 @@ class RosePicker(Package):
     LFRic RosePicker
     """
 
+    source_path = os.path.dirname(os.path.realpath(__file__))
     homepage = ""
-    url = "https://github.com/sergisiso/psyclone-spack/raw/master/repo_additional_packages/packages/rose-picker/rose-picker.v2.tar.gz"
+    url = "file://"+source_path+"/rose-picker.v2.tar.gz"
 
     version(
         '2',
         '8459bac55ca97fca874b89f7199fdc8e551d0661402b629d7acd668b594c01b1',
-        url='https://github.com/sergisiso/psyclone-spack/raw/master/repo_additional_packages/packages/rose-picker/rose-picker.v2.tar.gz'
+        url="file://"+source_path+"/rose-picker.v2.tar.gz"
     )
 
     # depends_on("python@3:", type="run")
