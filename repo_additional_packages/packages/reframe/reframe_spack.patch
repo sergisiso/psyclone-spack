@@ -1,5 +1,5 @@
---- core/buildsystems.py	2024-01-02 10:04:50.862512667 +0000
-+++ core/buildsystems.py	2024-01-02 10:03:56.249990969 +0000
+--- reframe/core/buildsystems.py	2024-01-02 10:04:50.862512667 +0000
++++ reframe/core/buildsystems.py	2024-01-02 10:03:56.249990969 +0000
 @@ -876,10 +876,10 @@
      def emit_build_commands(self, environ):
          ret = self._create_env_cmds()

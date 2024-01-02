@@ -5,6 +5,7 @@
 
 # Added a patch for using the Spack build system without environment config
 # options, so that the hash is the same as in the manually installed packages
+# Also added pymongo to upload results
 
 import shutil
 
@@ -111,6 +112,7 @@ class Reframe(Package):
     depends_on("py-pyyaml", when="@3.4.1:", type="run")
     depends_on("py-requests", when="@3.4.1:", type="run")
     depends_on("py-semver", when="@3.4.2:", type="run")
+    depends_on("py-pymongo", when="@3:", type="run")
 
     # extension dependencies
     depends_on("py-pygelf", when="+gelf", type="run")

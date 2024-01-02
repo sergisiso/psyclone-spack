@@ -5,7 +5,7 @@ import reframe.utility.sanity as sn
 @rfm.simple_test
 class Bablestream(rfm.RegressionTest):
     descr = 'Babelstream test using Spack OpenMP version'
-    valid_systems = ['*']
+    valid_systems = ['+omp_only']
     valid_prog_environs = ['builtin']
     executable = 'omp-stream'
     # executable_opts = ['--help']
@@ -46,3 +46,8 @@ class Bablestream(rfm.RegressionTest):
     @performance_function('MBytes/sec', perf_key='Dot')
     def extract_dot_perf(self):
         return sn.extractsingle(r'Dot \s+(\S+)\s+.', self.stdout, 1, float)
+
+    @run_after('performance')
+    def upload_results(self):
+        import pdb; pdb.set_trace()
+        
