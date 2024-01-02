@@ -27,29 +27,34 @@ Not all necessary software is available on the upstream Spack, so we provide an
 additional set of spack recipes that include all LFRic dependencies.
 `spack repo add repo_additional_packages`
 
+## Spack Usage
+
 Now, applications/libraries listed on Spack can be installed with:
 `spack install <application>`
 
-However, in our case we are not trying to install the final applications
-themself, but all of their dependencies, so that we can run their build
-system manually (using psyclone):
+Before installing one can use the commands:
+- `spack info <application>` to see the available versions and variants
+- `spack spec <application>` to see which dependencies will be installed
 
-For this we will use "spack environments", which are like bundles of
-packages (e.g. all the dependencies needed to build an application) 
+It is sometimes useful to use the `-U` (`--fresh`) option to concretize the
+dependencies without using the already installed packages, so that all dependencies
+use the chosen compiler. For example:
 
 ```bash
-# Create lfric environment
-spack env create lfric-gnu environments/lfric.yaml
-spack env activate
-
-# Install necessary packages
-spack install
+spack install -U lfric-buildenv %aocc +xios
 ```
 
-## Usage
+Once installed, a package can be loaded and its files located with:
+```bash
+spack load lfric-buildenv
+spack locate -i lfric-buildenv
+```
 
-List available environments
-spack env list
+> **_NOTE:_**  Some build environments like LFRic, Nemo, PSycloneBench, ...
+are created as packages (instead of Spack environments), this is because
+even if no software is installed, it was easier to specify the different
+compiler/variant/dependencies and the environment variables that must be
+load/unloaded for each combination.
 
 ## Reframe
 
