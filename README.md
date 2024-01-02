@@ -1,38 +1,46 @@
 # PSyclone Spack Software Stack
 
-## Introduction
-
-This repository contains the Spack packages and recipes to build the software
-stacks necessary to build PSyclone applications: LFRic, NEMO, NUMA3d, ...
+This repository contains the Spack packages necessary to build all applications
+targeted by PSyclone, such as: LFRic, NEMO, PSycloneBench, CROCO, NUMA3d, ...
+in addition to the reframe performance testing framework and some additional
+benchmarks.
 
 ## Initial set up
 
-To install the latest version of Spack with:
-`git clone -c feature.manyFiles=true https://github.com/spack/spack.git spack-repo`
+Install the latest version of Spack:
+```bash
+git clone -c feature.manyFiles=true https://github.com/spack/spack.git spack-repo
+```
 
 Install the compilers (alternatively point to locally installed compilers):
-```
-spack install gcc%11.2.0+nvptx
+```bash
+spack install gcc
 spack install intel-oneapi-compilers
 spack install nvhpc
+spack install aocc
 ```
 
-Set up compilers file:
-```
+Set up the Spack compilers configuration:
+```bash
 spack compiler find
 spack compilers
 ```
 
-Not all necessary software is available on the upstream Spack, so we provide an
-additional set of spack recipes that include all LFRic dependencies.
-`spack repo add repo_additional_packages`
+Not all necessary software is available on the Spack upstream, in this repository
+we provide an additional set of Spack recipes and patched versions of some others.
+To add this repository in addition to the Spack upstream use:
+```bash
+spack repo add repo_additional_packages
+```
 
 ## Spack Usage
 
-Now, applications/libraries listed on Spack can be installed with:
-`spack install <application>`
+Applications/libraries listed on Spack (`spack list`) can be installed with:
+```bash
+spack install <application>
+```
 
-Before installing one can use the commands:
+Before installing, use the commands:
 - `spack info <application>` to see the available versions and variants
 - `spack spec <application>` to see which dependencies will be installed
 
@@ -84,3 +92,7 @@ If the workflow fails, it is recommended to go step by step:
 1. Install the spack recipe manually (the environment will reuse the already installed one)
 2. Run the staged `rfm_build.sh` (build process)
 3. Run the staged `rfm_job.sh` (benchmark)
+
+> **_NOTE:_** Reframe has been patched to ignore spack config options so that
+by default it uses the same configuration/installations than the Spack packages
+installed in the system.
