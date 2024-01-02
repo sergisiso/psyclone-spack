@@ -51,5 +51,31 @@ spack install
 List available environments
 spack env list
 
+## Reframe
 
+This repository also includes reframe python scripts to automate the testing
+of multiple benchmarks and applications on multiple environments.
 
+```bash
+spack install reframe
+```
+
+All benchmarks use a Spack environment to install the application. This is
+specified in the `self.build_system.specs` attribute. For example
+
+```python
+self.build_system.specs = ['babelstream%gcc+omp']
+```
+
+It also includes a `config.py` configuration file with information about the
+multiple systems and job schedulers where the tests are executed. The reframe
+tests can be triggered with:
+
+```bash
+reframe -C reframe/config.py -c reframe/benchmarks/babelstream.py -r --performance-report --keep-stage-files
+```
+
+If the workflow fails, it is recommended to go step by step:
+1. Install the spack recipe manually (the environment will reuse the already installed one)
+2. Run the staged `rfm_build.sh` (build process)
+3. Run the staged `rfm_job.sh` (benchmark)
