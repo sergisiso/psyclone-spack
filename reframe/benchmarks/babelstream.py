@@ -1,14 +1,17 @@
 import os
+import sys
 import reframe as rfm
 import reframe.utility.sanity as sn
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+from benchmarks.base import BaseSpackTest
 
 
-class Babelstream(rfm.RegressionTest):
+class Babelstream(BaseSpackTest):
     descr = 'Babelstream test using Spack OpenMP version'
     valid_systems = ['+no_mpi']
     executable = 'omp-stream'
     # executable_opts = ['--help']
-    build_system = 'Spack'
     mongodb_collection = 'Babelstream'
 
     @run_after('setup')
@@ -42,25 +45,6 @@ class Babelstream(rfm.RegressionTest):
     @performance_function('MBytes/sec', perf_key='Dot')
     def extract_dot_perf(self):
         return sn.extractsingle(r'Dot \s+(\S+)\s+.', self.stdout, 1, float)
-
-    @run_after('performance')
-    def upload_results(self):
-        from pymongo import MongoClient
-        # Get user:password string
-        userpass = os.environ['MONGODB_USER_PASSWORD']
-        # Provide the mongodb atlas url to connect python to mongodb using pymongo
-        CONNECTION_STRING = f"mongodb+srv://{userpass}@cluster0.x8ncpxi.mongodb.net/PerformanceMonitoring"
-        # Create a connection using MongoClient.
-        client = MongoClient(CONNECTION_STRING)
-        # Create the new entry dictionary
-        entry = {
-            "Spack specs": self.build_system.specs,
-            "Environment vars": self.env_vars,
-        }
-        entry.update(self.perfvalues._MappingView__mapping)
-        # Create the database for our example (we will use the same database throughout the tutorial
-        collection = client['PerformanceMonitoring'][self.mongodb_collection]
-        collection.insert_one(entry)
 
 @rfm.simple_test
 class BablestreamGCC(Babelstream):

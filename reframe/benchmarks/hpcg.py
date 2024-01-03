@@ -1,26 +1,21 @@
 import os
+import sys
 import glob
 import reframe as rfm
 import reframe.utility.sanity as sn
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.dirname(SCRIPT_DIR))
+from benchmarks.base import BaseSpackTest
 
-
-@rfm.simple_test
-class HPCG(rfm.RegressionTest):
+class HPCG(BaseSpackTest):
     descr = 'HPCG test using Spack version'
-    valid_systems = ['+mpi_only']
-    valid_prog_environs = ['builtin']
+    valid_systems = ['+mpi']
     executable = 'xhpcg'
     num_cpus_per_task = 1
     num_tasks = required
     num_tasks_per_node = required
     # executable_opts = ['--help']
-    build_system = 'Spack'
-    # hpcg.dat sets size of grid
-    prerun_cmds.append('cp "$(dirname $(which xhpcg))/hpcg.dat" .')
-
-    @run_before('compile')
-    def setup_build_system(self):
-        self.build_system.specs = ['hpcg%gcc']
+    mongodb_collection = 'HPCG'
 
     @run_after('setup')
     def setup_variables(self):
@@ -104,13 +99,30 @@ class HPCG(rfm.RegressionTest):
         }
 
 @rfm.simple_test
-class HPCG_Excalibur(HPCG):
+class HPCG_Original_GCC(HPCG):
+    valid_prog_environs = ['spack-gcc']
+    # hpcg.dat sets size of grid
+    prerun_cmds.append('cp "$(dirname $(which xhpcg))/hpcg.dat" .')
+
+    @run_before('compile')
+    def setup_build_system(self):
+        self.build_system.specs = ['hpcg%gcc']
+
+@rfm.simple_test
+class HPCG_Excalibur_GCC(HPCG):
+    valid_prog_environs = ['spack-gcc']
+    # hpcg.dat sets size of grid
+    prerun_cmds.append('cp "$(dirname $(which xhpcg))/hpcg.dat" .')
+
     @run_before('compile')
     def setup_build_system(self):
         self.build_system.specs = ['hpcg-excalibur@hpcg_original%gcc']
-        
+
 @rfm.simple_test
-class HPCG_LFRic(HPCG):
+class HPCG_LFRic_GCC(HPCG):
+    valid_prog_environs = ['spack-gcc']
+    # hpcg.dat sets size of grid
+    prerun_cmds.append('cp "$(dirname $(which xhpcg))/hpcg.dat" .')
     # This test also need the dinodump.dat
     prerun_cmds.append('cp "$(dirname $(which xhpcg))/dinodump.dat" .')
 
