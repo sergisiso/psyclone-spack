@@ -1,19 +1,15 @@
+import os
 import reframe as rfm
 import reframe.utility.sanity as sn
 
 
-@rfm.simple_test
-class Bablestream(rfm.RegressionTest):
+class Babelstream(rfm.RegressionTest):
     descr = 'Babelstream test using Spack OpenMP version'
-    valid_systems = ['+omp_only']
-    valid_prog_environs = ['builtin']
+    valid_systems = ['+no_mpi']
     executable = 'omp-stream'
     # executable_opts = ['--help']
     build_system = 'Spack'
-
-    @run_before('compile')
-    def setup_build_system(self):
-        self.build_system.specs = ['babelstream%gcc+omp']
+    mongodb_collection = 'Babelstream'
 
     @run_after('setup')
     def setup_variables(self):
@@ -49,5 +45,47 @@ class Bablestream(rfm.RegressionTest):
 
     @run_after('performance')
     def upload_results(self):
-        import pdb; pdb.set_trace()
-        
+        from pymongo import MongoClient
+        # Get user:password string
+        userpass = os.environ['MONGODB_USER_PASSWORD']
+        # Provide the mongodb atlas url to connect python to mongodb using pymongo
+        CONNECTION_STRING = f"mongodb+srv://{userpass}@cluster0.x8ncpxi.mongodb.net/PerformanceMonitoring"
+        # Create a connection using MongoClient.
+        client = MongoClient(CONNECTION_STRING)
+        # Create the new entry dictionary
+        entry = {
+            "Spack specs": self.build_system.specs,
+            "Environment vars": self.env_vars,
+        }
+        entry.update(self.perfvalues._MappingView__mapping)
+        # Create the database for our example (we will use the same database throughout the tutorial
+        collection = client['PerformanceMonitoring'][self.mongodb_collection]
+        collection.insert_one(entry)
+
+@rfm.simple_test
+class BablestreamGCC(Babelstream):
+    valid_prog_environs = ['spack-gcc']
+    @run_before('compile')
+    def setup_build_system(self):
+        self.build_system.specs = ['babelstream%gcc+omp flags="-Ofast -march=native"']
+
+@rfm.simple_test
+class BablestreamAOCC(Babelstream):
+    valid_prog_environs = ['spack-aocc']
+    @run_before('compile')
+    def setup_build_system(self):
+        self.build_system.specs = ['babelstream%aocc+omp flags="-Ofast -march=native"']
+
+@rfm.simple_test
+class BablestreamNVHPC(Babelstream):
+    valid_prog_environs = ['spack-nvhpc']
+    @run_before('compile')
+    def setup_build_system(self):
+        self.build_system.specs = ['babelstream%nvhpc+omp flags="-Ofast -march=native"']
+
+@rfm.simple_test
+class BablestreamOneAPI(Babelstream):
+    valid_prog_environs = ['spack-oneapi']
+    @run_before('compile')
+    def setup_build_system(self):
+        self.build_system.specs = ['babelstream%oneapi+omp flags="-Ofast -march=native"']

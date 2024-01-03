@@ -11,9 +11,9 @@ site_configuration = {
                     'descr': 'Local cpu without MPI',
                     'scheduler': 'local',
                     'launcher': 'local',
-                    'features': ['omp_only'],
+                    'features': ['no_mpi'],
                     'max_jobs': 1,
-                    'environs': ['builtin'],
+                    'environs': ['spack-gcc', 'spack-nvhpc', 'spack-aocc'],
                     'processor': {
                         'num_cpus': 12,
                         'num_cpus_per_core': 2,
@@ -26,9 +26,9 @@ site_configuration = {
                     'descr': 'Local cpu with MPI',
                     'scheduler': 'local',
                     'launcher': 'mpirun',
-                    'features': ['mpi_only'],
+                    'features': ['mpi'],
                     'max_jobs': 1,
-                    'environs': ['builtin'],
+                    'environs': ['spack-gcc', 'spack-nvhpc', 'spack-aocc'],
                     'processor': {
                         'num_cpus': 12,
                         'num_cpus_per_core': 2,
@@ -38,5 +38,20 @@ site_configuration = {
                 },
             ]
         }
+    ],
+    'environments': [
+        {
+            'name': 'spack-gcc',
+        },
+        {
+            'name': 'spack-oneapi',
+        },
+        {
+            'name': 'spack-nvhpc',
+        },
+        {
+            'name': 'spack-aocc',
+            'env_vars': [['LD_LIBRARY_PATH', '$LD_LIBRARY_PATH:$(spack location -i aocc)/lib']]
+        },
     ]
 }

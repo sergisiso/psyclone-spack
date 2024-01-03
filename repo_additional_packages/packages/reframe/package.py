@@ -113,6 +113,7 @@ class Reframe(Package):
     depends_on("py-requests", when="@3.4.1:", type="run")
     depends_on("py-semver", when="@3.4.2:", type="run")
     depends_on("py-pymongo", when="@3:", type="run")
+    depends_on("py-dnspython", when="@3:", type="run")
 
     # extension dependencies
     depends_on("py-pygelf", when="+gelf", type="run")
