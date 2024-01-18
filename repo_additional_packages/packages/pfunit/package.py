@@ -42,7 +42,7 @@ class Pfunit(CMakePackage):
         description="Max number of Fortran dimensions of array asserts",
     )
 
-    depends_on("python@2.7:", type=("build"))
+    # depends_on("python@2.7:", type=("build"))
     depends_on("mpi", when="+mpi")
     depends_on("m4", when="@4.1.5:", type="build")
 

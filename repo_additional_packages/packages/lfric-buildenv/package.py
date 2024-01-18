@@ -21,7 +21,7 @@ class LfricBuildenv(Package):
     def url_for_version(self, version):
         return os.path.join("dev", "null")
 
-    depends_on("mpich@3.2")
+    depends_on("mpi")
     depends_on("netcdf-fortran")
     depends_on("yaxt@0.9.0 idxtype=long")
     depends_on("pfunit@3 max_array_rank=6 +mpi +openmp")
