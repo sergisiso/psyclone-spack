@@ -12,9 +12,10 @@ To install the latest version of Spack with:
 
 Install the compilers (alternatively point to locally installed compilers):
 ```
-spack install gcc%11.2.0+nvptx
+spack install gcc+nvptx ^cuda@10
 spack install intel-oneapi-compilers
 spack install nvhpc
+spack install aocc
 ```
 
 Set up compilers file:
