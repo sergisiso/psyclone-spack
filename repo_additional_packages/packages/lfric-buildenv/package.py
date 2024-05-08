@@ -2,24 +2,13 @@ import os
 from spack.package import *
 
 
-class LfricBuildenv(Package):
+class LfricBuildenv(BundlePackage):
     """
-    LFRic BuildEnvironment is everything needed to build LFRic
+    LFRicBuildEnv contains everything needed to build LFRic
     """
+    version("2024.01")
 
-    source_path = os.path.dirname(os.path.realpath(__file__))
-    maintainers = ['']
-
-    variant("xios", default=False, description="Enable XIOS support")
-    version(
-        "2024.01",
-        '77518a79558d45638bf070ec6af41ea5f86096fb6d0cc90784909dc0ae6c0a95',
-        expand=False,
-        url="file://"+source_path+"/empty_file.py"
-    )
-    
-    def url_for_version(self, version):
-        return os.path.join("dev", "null")
+    variant("xios", default=True, description="Enable XIOS support")
 
     depends_on("mpi")
     depends_on("netcdf-fortran")
@@ -27,12 +16,9 @@ class LfricBuildenv(Package):
     depends_on("pfunit max_array_rank=6 +mpi +openmp")
     depends_on("fcm")
     depends_on("rose-picker")
-    
-    # XIOS is optional and has to be requested with +xios
-    depends_on("xios@2.5.2252", when="+xios")
 
-    def install(self, spec, prefix):
-        install_tree(".", prefix)
+    # XIOS can be disabled with -xios
+    depends_on("xios@2252", when="+xios")
 
     def setup_run_environment(self, env):
         env.set('FC', "gfortran")

@@ -9,12 +9,31 @@ benchmarks.
 
 Install the latest version of Spack:
 ```bash
-git clone -c feature.manyFiles=true https://github.com/spack/spack.git spack-repo
+git clone -c feature.manyFiles=true https://github.com/spack/spack.git ~/.spack
+```
+
+Configure system packages and global settings:
+```
+cat <<EOF > ~/.spack/packages.yaml
+packages:
+    openssl:
+        externals:
+        - spec: openssl@`openssl version | awk '{print $2}'`
+          prefix: /usr
+        buildable: False
+    subversion:
+        externals:
+        - spec: subversion@1.14
+          prefix: /usr
+        buildable: False
+    all:
+        variants: cuda_arch=70
+EOF
 ```
 
 Install the compilers (alternatively point to locally installed compilers):
 ```
-spack install gcc+nvptx ^cuda@10
+spack install gcc@11+nvptx
 spack install intel-oneapi-compilers
 spack install nvhpc
 spack install aocc
@@ -25,11 +44,22 @@ Set up the Spack compilers configuration:
 spack compiler find
 spack compilers
 ```
+and edit the flags in `spack config edit compilers`. For example adding:
+```
+    flags:
+      cflags: -O2 -g -fno-omit-frame-pointer
+      fflags: -O2 -g -fno-omit-frame-pointer
+      cxxflags: -O2 -g -fno-omit-frame-pointer
+      cppflags: -O2 -g -fno-omit-frame-pointer
+      ldflags: -O2 -g -fno-omit-frame-pointer
+```
 
-Not all necessary software is available on the Spack upstream, in this repository
-we provide an additional set of Spack recipes and patched versions of some others.
-To add this repository in addition to the Spack upstream use:
+
+Not all necessary software is available on the Spack upstream, and some which are
+available need patches. Add the additional packages by doing (order is important):
 ```bash
+git clone git@github.com:MetOffice/simit-spack.git
+spack repo add simit-spack/repos/metoffice
 spack repo add repo_additional_packages
 ```
 
@@ -52,8 +82,9 @@ use the chosen compiler. For example:
 spack install -U lfric-buildenv %aocc +xios
 ```
 
-Once installed, a package can be loaded and its files located with:
+Once installed, a package can be, found, loaded and its files located with:
 ```bash
+spack find -x
 spack load lfric-buildenv
 spack locate -i lfric-buildenv
 ```
