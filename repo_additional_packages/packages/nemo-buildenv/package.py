@@ -12,9 +12,12 @@ class NemoBuildenv(BundlePackage):
 
     depends_on("perl", type="run")
     depends_on("perl-uri")
+    depends_on("netcdf-c+mpi")
+    depends_on("netcdf-fortran")
+    depends_on("hdf5+mpi")
     depends_on("mpi")
-    depends_on("netcdf-fortran", type="link")
-    depends_on("xios@2.5", when="+xios")  # Using same than LFRic
+
+    # depends_on("xios@2.5", when="+xios")  # Using same than LFRic
 
     def setup_run_environment(self, env):
         """ Set-up the environment variables that the arch files use. """
