@@ -80,7 +80,7 @@ class Xios(BaseXios):
         # Note: removed "%intel", "%apple-clang", "%clang", "%fj" from
         # the list on the assumption that the flags will need changing
         # to work with these compilers
-        if any(map(spec.satisfies, ("%gcc",  "%cce"))):
+        if any(map(spec.satisfies, ("%gcc",  "%cce", "%nvhpc"))):
             text = r"""
 %CCOMPILER      {MPICXX}
 %FCOMPILER      {MPIFC}

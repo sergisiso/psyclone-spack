@@ -15,10 +15,11 @@ class LfricBuildenv(BundlePackage):
     depends_on("yaxt@0.9.0 idxtype=long")
     depends_on("pfunit max_array_rank=6 +mpi +openmp")
     depends_on("fcm")
-    depends_on("rose-picker")
+    depends_on("rose-picker", type="run")
+    depends_on("py-jinja2", type="run")
 
     # XIOS can be disabled with -xios
-    depends_on("xios@2252", when="+xios")
+    depends_on("xios@2.5.2252", when="+xios")
 
     def setup_run_environment(self, env):
         env.set('FC', "gfortran")
