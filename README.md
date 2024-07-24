@@ -2,41 +2,56 @@
 
 This repository contains the Spack packages necessary to build all applications
 targeted by PSyclone, such as: LFRic, NEMO, PSycloneBench, CROCO, NUMA3d, ...
-in addition to the reframe performance testing framework and some additional
-benchmarks.
 
 ## Initial set up
 
-Install the latest version of Spack:
+To install them you need Spack and the MetOffice Simit packages, for convenience
+these are both submodules of this repository with exact versions that have worked
+before, but you can only use external installations. To use the submodules do:
 ```bash
-git clone -c feature.manyFiles=true https://github.com/spack/spack.git ~/.spack
+git submodule update --init
 ```
 
-Configure system packages and global settings:
+Then configure Spack settings, add your configs to:
+  - spack-repo/etc/spack/ to affect only this spack instance but for all users.
+  - or ~/.spack/ to affect all spack instances but only for this user.
+In the one you choose add a `packages.yaml` with:
 ```
-cat <<EOF > ~/.spack/packages.yaml
 packages:
     openssl:
+        buildable: false
         externals:
         - spec: openssl@`openssl version | awk '{print $2}'`
           prefix: /usr
         buildable: False
     subversion:
+        buildable: false
         externals:
         - spec: subversion@1.14
           prefix: /usr
         buildable: False
     all:
         variants: cuda_arch=70
-EOF
+```
+Choose the "cuda_arch" by using: https://developer.nvidia.com/cuda-gpus
+
+If your system needs specific installations e.g. cuda for WSL or MPI with
+specific system configurations, also add them here:
+```
+    cuda:
+        buildable: false
+        externals:
+        - spec: cuda@12.2
+          prefix: /usr/lib/wsl/
 ```
 
-Install the compilers (alternatively point to locally installed compilers):
+Install the compilers:
 ```
-spack install gcc@11+nvptx
+spack install gcc +nvptx
 spack install intel-oneapi-compilers
 spack install nvhpc
 spack install aocc
+spack install llvm +cuda +flang +libomptarget +libomptarget_debug +mlir
 ```
 
 Set up the Spack compilers configuration:
@@ -53,15 +68,8 @@ and edit the flags in `spack config edit compilers`. For example adding:
       cppflags: -O2 -g -fno-omit-frame-pointer
       ldflags: -O2 -g -fno-omit-frame-pointer
 ```
+to add debug symbols and frame pointers to all installed packages.
 
-
-Not all necessary software is available on the Spack upstream, and some which are
-available need patches. Add the additional packages by doing (order is important):
-```bash
-git clone git@github.com:MetOffice/simit-spack.git
-spack repo add simit-spack/repos/metoffice
-spack repo add repo_additional_packages
-```
 
 ## Spack Usage
 
@@ -75,8 +83,7 @@ Before installing, use the commands:
 - `spack spec <application>` to see which dependencies will be installed
 
 It is sometimes useful to use the `-U` (`--fresh`) option to concretize the
-dependencies without using the already installed packages, so that all dependencies
-use the chosen compiler. For example:
+dependencies without preferring the already installed packages. For example:
 
 ```bash
 spack install -U lfric-buildenv %aocc +xios
@@ -89,8 +96,12 @@ spack load lfric-buildenv
 spack locate -i lfric-buildenv
 ```
 
-> **_NOTE:_**  Some build environments like LFRic, Nemo, PSycloneBench, ...
-are created as packages (instead of Spack environments), this is because
-even if no software is installed, it was easier to specify the different
-compiler/variant/dependencies and the environment variables that must be
-load/unloaded for each combination.
+This repository provides:
+- lfric-buildenv
+- nemo-buildenv
+
+> **_NOTE:_** These are provided as packages (instead of Spack environments)
+because it was easier to specify the different compiler/variant/dependencies
+to build and load different combinations of them, and each comes with shell
+environment variables that are used during the applications building step
+outside spack.

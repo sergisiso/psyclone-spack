@@ -1,0 +1,3 @@
+[submodule "spack-repo"]
+	path = spack-repo
+	url = https://github.com/spack/spack
