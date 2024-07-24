@@ -7,9 +7,14 @@ targeted by PSyclone, such as: LFRic, NEMO, PSycloneBench, CROCO, NUMA3d, ...
 
 To install them you need Spack and the MetOffice Simit packages, for convenience
 these are both submodules of this repository with exact versions that have worked
-before, but you can only use external installations. To use the submodules do:
+before, but you can also use external installations. To use the submodules do:
 ```bash
 git submodule update --init
+```
+
+Now, to add Spack to your shell you can do:
+```bash
+source ${PWD}/spack-repo/share/spack/setup-env.sh
 ```
 
 Then configure Spack settings, add your configs to:
@@ -33,7 +38,7 @@ packages:
     all:
         variants: cuda_arch=70
 ```
-Choose the "cuda_arch" by using: https://developer.nvidia.com/cuda-gpus
+Choose the right "cuda_arch" by using: https://developer.nvidia.com/cuda-gpus
 
 If your system needs specific installations e.g. cuda for WSL or MPI with
 specific system configurations, also add them here:
@@ -80,6 +85,17 @@ spack repo add psyclone_additional_packages
 
 After this you can list them using: `spack repo list`
 
+The reason to provide packages that overlap with the ones in Spack and Simit are:
+
+- Blitz: Simit is out-of-date with its base version which uses cmake, this repo
+has a copy of the base version.
+- XIOS: this repo adds fixes for gcc>12 and nvhpc. Note that it needs to be
+installed specifying the same compiler for the mpi. For instance:
+`spack install xios%nvhpc ^openmpi%nvhpc`
+- rose_picker: The repository is password-protected, this repo distributes the
+source in a tar file.
+- fcm: Skips one perl dependency that can't be compiled with latest gcc.
+
 ## Spack Usage
 
 Applications/libraries listed on Spack (`spack list`) can be installed with:
@@ -92,10 +108,10 @@ Before installing, use the commands:
 - `spack spec <application>` to see which dependencies will be installed
 
 It is sometimes useful to use the `-U` (`--fresh`) option to concretize the
-dependencies without preferring the already installed packages. For example:
+dependencies without preferring the already installed packages:
 
 ```bash
-spack install -U lfric-buildenv %aocc +xios
+spack install lfric-buildenv%nvhpc ^openmpi%nvhpc
 ```
 
 Once installed, a package can be, found, loaded and its files located with:

@@ -42,6 +42,30 @@ class Xios(BaseXios):
                         "#include <array>\n\\1",
                         "extern/remap/src/elt.hpp",
                         backup=True)
+            
+            filter_file(r"//#include <cstdint>",
+                        "#include <cstdint>",
+                        "extern/remap/src/earcut.hpp",
+                        backup=True)
+        elif self.spec.satisfies("%nvhpc"):
+            # Nvidia have identified two problems with XIOS during
+            # compiler testing on an Azure linux system and have
+            # provided the following patches to the source code
+            filter_file(
+                r"#include <limits.h>",
+                "#include <limits.h>\n#include <float.h>",
+                "src/io/nc4_data_output.cpp",
+                backup=True,
+            )
+
+            filter_file(
+                r"double lat = latitude;",
+                '\n    '.join(["double lat = latitude;",
+                               "if (lon < 0.0) lon += 360.0;",
+                               "if (lat < -90.0) lat += 180.0;"]),
+                "src/node/mesh.cpp",
+                backup=True,
+            )
 
         return
 
@@ -62,10 +86,17 @@ class Xios(BaseXios):
         param["MPIFC"] = spec["mpi"].mpifc
         param["CC"] = self.compiler.cc
         param["FC"] = self.compiler.fc
+        param["CPP"] = self.compiler.cc
+        param["FPP"] = self.compiler.fc
         param["BOOST_INC_DIR"] = spec["boost"].prefix.include
         param["BOOST_LIB_DIR"] = spec["boost"].prefix.lib
         param["BLITZ_INC_DIR"] = spec["blitz"].prefix.include
         param["BLITZ_LIB_DIR"] = spec["blitz"].prefix.lib
+
+        # Default compiler flags
+        param["CFLAGS"] = "-ansi -w -D_GLIBCXX_USE_CXX11_ABI=0"
+        param["FFLAGS"] = ""
+        
         if spec.satisfies("%apple-clang"):
             param["LIBCXX"] = "-lc++"
         else:
@@ -74,8 +105,11 @@ class Xios(BaseXios):
         if spec.satisfies("%gcc"):
             # Allow long lines in gfortran
             param["FFLAGS"] = "-ffree-line-length-none"
-        else:
-            param["FFLAGS"] = ""
+        elif spec.satisfies("%nvhpc"):
+            # Overrides for nvidia
+            param["CPP"] = "gcc"
+            param["FPP"] = "gcc"
+            param["CFLAGS"] = "-w"
 
         # Note: removed "%intel", "%apple-clang", "%clang", "%fj" from
         # the list on the assumption that the flags will need changing
@@ -86,7 +120,7 @@ class Xios(BaseXios):
 %FCOMPILER      {MPIFC}
 %LINKER         {MPIFC}
 
-%BASE_CFLAGS    -ansi -w -D_GLIBCXX_USE_CXX11_ABI=0 \
+%BASE_CFLAGS    {CFLAGS} \
                 -I{BOOST_INC_DIR} -std=c++11
 %PROD_CFLAGS    -O3 -DBOOST_DISABLE_ASSERTS
 %DEV_CFLAGS     -g -O2
@@ -100,8 +134,8 @@ class Xios(BaseXios):
 %BASE_INC       -D__NONE__
 %BASE_LD        -L{BOOST_LIB_DIR} {LIBCXX}
 
-%CPP            {CC} -E
-%FPP            {CC} -E -P -x c
+%CPP            {CPP} -E
+%FPP            {FPP} -E -P -x c
 %MAKE           gmake
 """.format(
                 **param
