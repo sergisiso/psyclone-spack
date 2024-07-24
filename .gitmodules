@@ -1,3 +1,6 @@
 [submodule "spack-repo"]
 	path = spack-repo
 	url = https://github.com/spack/spack
+[submodule "simit-spack"]
+	path = simit-spack
+	url = git@github.com:MetOffice/simit-spack.git

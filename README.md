@@ -70,6 +70,15 @@ and edit the flags in `spack config edit compilers`. For example adding:
 ```
 to add debug symbols and frame pointers to all installed packages.
 
+Not all necessary software is available on the Spack upstream repository, and some
+of the available packages need patches. Add the additional packages needed by doing
+(order is important):
+```bash
+spack repo add simit-spack/repos/metoffice
+spack repo add psyclone_additional_packages
+```
+
+After this you can list them using: `spack repo list`
 
 ## Spack Usage
 
