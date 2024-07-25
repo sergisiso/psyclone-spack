@@ -23,11 +23,11 @@ class LfricBuildenv(BundlePackage):
     depends_on("xios", when="+xios")
 
     def setup_run_environment(self, env):
-        env.set('FC', "gfortran")
-        env.set('CC', "gcc")
-        env.set('CXX', "g++")
+        env.set('FC', self.compiler.fc)
+        env.set('CC', self.compiler.cc)
+        env.set('CXX', self.compiler.cxx)
         env.set('FPP', "cpp -traditional-cpp")
-        env.set('LDMPI', "mpif90")
+        env.set('LDMPI', self.spec["mpi"].mpifc)
 
         env.append_flags("FFLAGS", self.spec["mpi"].headers.include_flags)
         env.append_flags("FFLAGS", self.spec["mpi"].headers.include_flags + "/../lib")
