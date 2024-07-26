@@ -59,7 +59,8 @@ spack install aocc
 spack install llvm +cuda +flang +libomptarget +libomptarget_debug +mlir
 ```
 
-Set up the Spack compilers configuration:
+Set up the Spack compilers configuration (N.B. you may need to e.g. `spack load nvhpc`
+before spack will find the new packages):
 ```bash
 spack compiler find
 spack compilers
