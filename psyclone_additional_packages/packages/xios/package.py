@@ -43,10 +43,6 @@ class Xios(BaseXios):
                         "extern/remap/src/elt.hpp",
                         backup=True)
             
-            filter_file(r"//#include <cstdint>",
-                        "#include <cstdint>",
-                        "extern/remap/src/earcut.hpp",
-                        backup=True)
         elif self.spec.satisfies("%nvhpc"):
             # Nvidia have identified two problems with XIOS during
             # compiler testing on an Azure linux system and have
@@ -66,6 +62,19 @@ class Xios(BaseXios):
                 "src/node/mesh.cpp",
                 backup=True,
             )
+            filter_file(r"^(#include\s*<memory>\s*)$",
+                        "#include <array>\n\\1",
+                        "extern/remap/src/earcut.hpp",
+                        backup=True)
+
+        filter_file(r"//#include <cstdint>",
+                    "#include <cstdint>",
+                    "extern/remap/src/earcut.hpp",
+                    backup=True)
+        filter_file(r"//#include <tuple>",
+                    "#include <tuple>",
+                    "extern/remap/src/earcut.hpp",
+                    backup=True)
 
         return
 
