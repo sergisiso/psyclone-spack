@@ -39,13 +39,11 @@ packages:
         externals:
         - spec: openssl@`openssl version | awk '{print $2}'`
           prefix: /usr
-        buildable: False
     subversion:
         buildable: false
         externals:
         - spec: subversion@1.14
           prefix: /usr
-        buildable: False
     all:
         variants: cuda_arch=70
 ```
