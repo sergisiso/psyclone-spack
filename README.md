@@ -1,11 +1,11 @@
 # PSyclone Spack Software Stack
 
-This repository contains the Spack packages necessary to build some applications
-that have PSyclone as part of their build system. As such, these packages do not
-install the final applications nor PSyclone itself. Instead they provide the
-necessary dependencies and environment variables (FC, LD_LIBRARY_PATH, ...)
-to build each application. You need your own version of PSyclone. Currently, this
-repository has:
+This repository contains the Spack packages necessary to build some of the
+applications that have PSyclone as part of their build system. As such, these
+packages do not install the final applications nor PSyclone itself. Instead
+they provide the necessary dependencies and environment variables (FC,
+LD_LIBRARY_PATH, ...) to build each application. You need your own version
+of PSyclone. Currently, this repository has:
 
 - lfric-build-environment
 - nemo-build-environment
@@ -63,7 +63,7 @@ specific system configurations, also add them here:
           prefix: /usr/lib/wsl/
 ```
 
-Install the compilers:
+To install the compilers use:
 ```
 spack install gcc +nvptx
 spack install intel-oneapi-compilers
@@ -72,13 +72,13 @@ spack install aocc
 spack install llvm +cuda +flang +libomptarget +libomptarget_debug +mlir
 ```
 
-Set up the Spack compilers configuration (N.B. you may need to e.g. `spack load nvhpc`
-before spack will find the new compilers):
+Then set up each compiler to be used to build other Spack packages, for this
+you first need to load each of them (e.g. `spack load nvhpc`) and then run:
 ```bash
 spack compiler find
 spack compilers
 ```
-and edit the flags in `spack config edit compilers`. For example adding:
+You can also edit the flags in `spack config edit compilers`. For example adding:
 ```
     flags:
       cflags: -O2 -g -fno-omit-frame-pointer
@@ -87,7 +87,8 @@ and edit the flags in `spack config edit compilers`. For example adding:
       cppflags: -O2 -g -fno-omit-frame-pointer
       ldflags: -O2 -g -fno-omit-frame-pointer
 ```
-to add debug symbols and frame pointers to all installed packages.
+to add debug symbols and frame pointers to all installed packages. By default this
+will be in `~/.spack/linux/compiler.yaml`, you can move it to `spack-repo/etc/spack/`.
 
 Not all necessary software is available on the Spack upstream repository, and some
 of the available packages need patches. Add the additional packages needed by doing
@@ -96,8 +97,6 @@ of the available packages need patches. Add the additional packages needed by do
 spack repo add simit-spack/repos/metoffice
 spack repo add psyclone_additional_packages
 ```
-
-After this you can list them using: `spack repo list`
 
 The reason to provide packages that overlap with the ones in Spack and Simit are:
 
@@ -112,7 +111,7 @@ source in a tar file.
 
 ## Spack Usage
 
-Applications/libraries listed on Spack (`spack list`) can be installed with:
+Applications/libraries available on Spack (`spack list`) can be installed with:
 ```bash
 spack install <application>
 ```
@@ -124,13 +123,15 @@ Before installing, use the commands:
 It is sometimes useful to use the `-U` (`--fresh`) option to concretize the
 dependencies without preferring the already installed packages:
 
+Currently for lfric we need to be specific about which mpi version to use
+otherwise the toolchain will use a mix of them:
 ```bash
-spack install lfric-buildenv%nvhpc ^openmpi%nvhpc
+spack install lfric-build-environment%nvhpc ^openmpi%nvhpc
 ```
 
 Once installed, a package can be, found, loaded and its files located with:
 ```bash
 spack find -x
-spack load lfric-buildenv%nvhpc
-spack location -i lfric-buildenv
+spack load lfric-build-environment%nvhpc
+spack location -i lfric-build-environment
 ```
