@@ -13,7 +13,7 @@ class LfricBuildEnvironment(BundlePackage):
     variant("xios", default=True, description="Enable XIOS support")
 
     depends_on("mpi")
-    depends_on("netcdf-fortran %nvhpc")
+    depends_on("netcdf-fortran")
     depends_on("yaxt")
     depends_on("pfunit")
     depends_on("fcm")
