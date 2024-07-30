@@ -1,24 +1,35 @@
 # PSyclone Spack Software Stack
 
-This repository contains the Spack packages necessary to build all applications
-targeted by PSyclone, such as: LFRic, NEMO, PSycloneBench, CROCO, NUMA3d, ...
+This repository contains the Spack packages necessary to build some applications
+that have PSyclone as part of their build system. As such, these packages do not
+install the final applications nor PSyclone itself. Instead they provide the
+necessary dependencies and environment variables (FC, LD_LIBRARY_PATH, ...)
+to build each application. You need your own version of PSyclone. Currently, this
+repository has:
+
+- lfric-build-environment
+- nemo-build-environment
+
+> **_NOTE:_**  Spack bundle packages were chosen over spack environments because
+they have more flexibility to chose compiler/variant/dependencies when installing
+them and they allow to set up environment variables when loading the package.
 
 ## Initial set up
 
-To install them you need Spack and the MetOffice Simit packages, for convenience
-these are both submodules of this repository with exact versions that have worked
+To install them you need Spack and the MetOffice Simit repositories, for convenience
+these are both submodules of this repository with the exact versions that have worked
 before, but you can also use external installations. To use the submodules do:
 ```bash
 git submodule update --init
 ```
 
-Now, to add Spack to your shell you can do:
+Now, add Spack to your environment with:
 ```bash
 source ${PWD}/spack-repo/share/spack/setup-env.sh
 ```
 
-Then configure Spack settings, add your configs to:
-  - spack-repo/etc/spack/ to affect only this spack instance but for all users.
+Then configure Spack settings, config files can be added to:
+  - ${PWD}/spack-repo/etc/spack/ to affect only this spack instance but for all users.
   - or ~/.spack/ to affect all spack instances but only for this user.
 In the one you choose add a `packages.yaml` with:
 ```
@@ -43,10 +54,12 @@ Choose the right "cuda_arch" by using: https://developer.nvidia.com/cuda-gpus
 If your system needs specific installations e.g. cuda for WSL or MPI with
 specific system configurations, also add them here:
 ```
+    # Modify spack-repo/var/spack/repos/builtin/packages/cuda/package.py:
+    # find_libraries("libcudart" -> find_libraries("libcuda"
     cuda:
         buildable: false
         externals:
-        - spec: cuda@12.2
+        - spec: cuda@12.5
           prefix: /usr/lib/wsl/
 ```
 
@@ -60,7 +73,7 @@ spack install llvm +cuda +flang +libomptarget +libomptarget_debug +mlir
 ```
 
 Set up the Spack compilers configuration (N.B. you may need to e.g. `spack load nvhpc`
-before spack will find the new packages):
+before spack will find the new compilers):
 ```bash
 spack compiler find
 spack compilers
@@ -118,16 +131,6 @@ spack install lfric-buildenv%nvhpc ^openmpi%nvhpc
 Once installed, a package can be, found, loaded and its files located with:
 ```bash
 spack find -x
-spack load lfric-buildenv
-spack locate -i lfric-buildenv
+spack load lfric-buildenv%nvhpc
+spack location -i lfric-buildenv
 ```
-
-This repository provides:
-- lfric-buildenv
-- nemo-buildenv
-
-> **_NOTE:_** These are provided as packages (instead of Spack environments)
-because it was easier to specify the different compiler/variant/dependencies
-to build and load different combinations of them, and each comes with shell
-environment variables that are used during the applications building step
-outside spack.

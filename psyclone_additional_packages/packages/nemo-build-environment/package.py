@@ -2,9 +2,9 @@ import os
 from spack.package import *
 
 
-class NemoBuildenv(BundlePackage):
+class NemoBuildEnvironment(BundlePackage):
     """
-    NemoBuildEnv contains everything needed to build NEMO.
+    NemoBuildEnvironment contains everything needed to build NEMO.
     """
 
     version("2024.04")

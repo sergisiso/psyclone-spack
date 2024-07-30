@@ -2,9 +2,11 @@ import os
 from spack.package import *
 
 
-class LfricBuildenv(BundlePackage):
-    """
-    LFRicBuildEnv contains everything needed to build LFRic
+class LfricBuildEnvironment(BundlePackage):
+    """LFRicBuildEnvironment installs all the dependencies needed to build
+    LFRic and when loaded populates the appropriate environment variables (FC,
+    CC, CXX, FPP, LDMPI, FFLAGS, LDFLAGS and LD_LIBRARY_PATH).
+   
     """
     version("2689")
 
