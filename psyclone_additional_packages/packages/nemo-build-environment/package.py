@@ -21,6 +21,11 @@ class NemoBuildEnvironment(BundlePackage):
 
     def setup_run_environment(self, env):
         """ Set-up the environment variables that the arch files use. """
+        env.set('FC', self.compiler.fc)
+        env.set('CC', self.compiler.cc)
+        env.set('CXX', self.compiler.cxx)
+        env.set('MPIFC', self.spec["mpi"].mpifc)
+
         env.append_flags("HDF5_HOME", self.spec["hdf5"].prefix)
         env.append_flags("NCDF_F_HOME", self.spec["netcdf-fortran"].prefix)
         env.append_flags("NCDF_C_HOME", self.spec["netcdf-c"].prefix)
