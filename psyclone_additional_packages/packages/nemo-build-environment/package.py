@@ -26,11 +26,11 @@ class NemoBuildEnvironment(BundlePackage):
         env.set('CXX', self.compiler.cxx)
         env.set('MPIFC', self.spec["mpi"].mpifc)
 
-        env.append_flags("HDF5_HOME", self.spec["hdf5"].prefix)
-        env.append_flags("NCDF_F_HOME", self.spec["netcdf-fortran"].prefix)
-        env.append_flags("NCDF_C_HOME", self.spec["netcdf-c"].prefix)
-        env.append_flags("LD_LIBRARY_PATH", self.spec["netcdf-fortran"].prefix.lib, sep=":")
-        env.append_flags("LD_LIBRARY_PATH", self.spec["netcdf-c"].prefix.lib, sep=":")
-        env.append_flags("PERL5LIB", self.spec["perl-uri"].prefix.lib + "/perl5", sep=":")
+        env.set("HDF5_HOME", self.spec["hdf5"].prefix)
+        env.set("NCDF_F_HOME", self.spec["netcdf-fortran"].prefix)
+        env.set("NCDF_C_HOME", self.spec["netcdf-c"].prefix)
+        env.append_path("LD_LIBRARY_PATH", self.spec["netcdf-fortran"].prefix.lib)
+        env.append_path("LD_LIBRARY_PATH", self.spec["netcdf-c"].prefix.lib)
+        env.append_path("PERL5LIB", self.spec["perl-uri"].prefix.lib + "/perl5")
         if "xios" in self.spec:
-            env.append_flags("XIOS_HOME", self.spec["xios"].prefix)
+            env.set("XIOS_HOME", self.spec["xios"].prefix)

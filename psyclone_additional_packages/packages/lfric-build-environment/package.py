@@ -42,13 +42,13 @@ class LfricBuildEnvironment(BundlePackage):
         env.append_flags("LDFLAGS", self.spec["hdf5"].libs.ld_flags)
         env.append_flags("LDFLAGS", self.spec["yaxt"].libs.ld_flags)
 
-        env.append_flags("LD_LIBRARY_PATH", self.spec["mpi"].prefix.lib, sep=":")
-        env.append_flags("LD_LIBRARY_PATH", self.spec["netcdf-fortran"].prefix.lib, sep=":")
-        env.append_flags("LD_LIBRARY_PATH", self.spec["netcdf-c"].prefix.lib, sep=":")
-        env.append_flags("LD_LIBRARY_PATH", self.spec["hdf5"].prefix.lib, sep=":")
-        env.append_flags("LD_LIBRARY_PATH", self.spec["yaxt"].prefix.lib, sep=":")
+        env.append_path("LD_LIBRARY_PATH", self.spec["mpi"].prefix.lib)
+        env.append_path("LD_LIBRARY_PATH", self.spec["netcdf-fortran"].prefix.lib)
+        env.append_path("LD_LIBRARY_PATH", self.spec["netcdf-c"].prefix.lib)
+        env.append_path("LD_LIBRARY_PATH", self.spec["hdf5"].prefix.lib)
+        env.append_path("LD_LIBRARY_PATH", self.spec["yaxt"].prefix.lib)
 
         if "xios" in self.spec:
             env.append_flags("FFLAGS", self.spec["xios"].headers.include_flags)
             env.append_flags("LDFLAGS", self.spec["xios"].libs.ld_flags)
-            env.append_flags("LD_LIBRARY_PATH", self.spec["xios"].prefix.lib, sep=":")
+            env.append_path("LD_LIBRARY_PATH", self.spec["xios"].prefix.lib)
