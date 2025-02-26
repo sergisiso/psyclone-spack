@@ -3,7 +3,7 @@
 #
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
-from spack.package import Package
+from spack.package import *
 
 
 class Fcm(Package):

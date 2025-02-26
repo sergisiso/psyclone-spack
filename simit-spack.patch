@@ -1,0 +1,600 @@
+diff --git a/repos/metoffice/packages/blitz/package.py b/repos/metoffice/packages/blitz/package.py
+index c94e265..1905188 100755
+--- a/repos/metoffice/packages/blitz/package.py
++++ b/repos/metoffice/packages/blitz/package.py
+@@ -3,6 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
++from spack.package import *
+ from spack.pkg.builtin.blitz import Blitz as BaseBlitz
+ 
+ 
+diff --git a/repos/metoffice/packages/cylc-flow/package.py b/repos/metoffice/packages/cylc-flow/package.py
+index 274e4c8..0bd9b4c 100644
+--- a/repos/metoffice/packages/cylc-flow/package.py
++++ b/repos/metoffice/packages/cylc-flow/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class CylcFlow(PythonPackage):
+diff --git a/repos/metoffice/packages/cylc-rose/package.py b/repos/metoffice/packages/cylc-rose/package.py
+index f896d75..9c8c34c 100644
+--- a/repos/metoffice/packages/cylc-rose/package.py
++++ b/repos/metoffice/packages/cylc-rose/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class CylcRose(PythonPackage):
+diff --git a/repos/metoffice/packages/cylc-uiserver/package.py b/repos/metoffice/packages/cylc-uiserver/package.py
+index d704b3d..188031a 100644
+--- a/repos/metoffice/packages/cylc-uiserver/package.py
++++ b/repos/metoffice/packages/cylc-uiserver/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class CylcUiserver(PythonPackage):
+diff --git a/repos/metoffice/packages/fcm/package.py b/repos/metoffice/packages/fcm/package.py
+index f5925b3..9da73c1 100644
+--- a/repos/metoffice/packages/fcm/package.py
++++ b/repos/metoffice/packages/fcm/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import Package
++from spack.package import *
+ 
+ 
+ class Fcm(Package):
+@@ -59,7 +59,7 @@ class Fcm(Package):
+     )
+ 
+     depends_on("perl")
+-    depends_on("perl-alien-svn")
++    # depends_on("perl-alien-svn")
+     depends_on("perl-config-inifiles")
+     depends_on("perl-dbd-sqlite")
+     depends_on("perl-digest-md5")
+diff --git a/repos/metoffice/packages/foxml/package.py b/repos/metoffice/packages/foxml/package.py
+index 7b03d7a..ad4a3e8 100644
+--- a/repos/metoffice/packages/foxml/package.py
++++ b/repos/metoffice/packages/foxml/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import CMakePackage
++from spack.package import *
+ 
+ 
+ class Foxml(CMakePackage):
+diff --git a/repos/metoffice/packages/gsl-lite/package.py b/repos/metoffice/packages/gsl-lite/package.py
+index c3ddb03..4379046 100644
+--- a/repos/metoffice/packages/gsl-lite/package.py
++++ b/repos/metoffice/packages/gsl-lite/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import CMakePackage
++from spack.package import *
+ 
+ 
+ class GslLite(CMakePackage):
+diff --git a/repos/metoffice/packages/hdf5/package.py b/repos/metoffice/packages/hdf5/package.py
+index 2daef1c..aa8ba8a 100755
+--- a/repos/metoffice/packages/hdf5/package.py
++++ b/repos/metoffice/packages/hdf5/package.py
+@@ -1,4 +1,5 @@
+ 
++from spack.package import *
+ from spack.pkg.builtin.hdf5 import Hdf5 as BaseHdf5
+ 
+ 
+diff --git a/repos/metoffice/packages/metomi-rose/package.py b/repos/metoffice/packages/metomi-rose/package.py
+index b527a02..ead0c9d 100644
+--- a/repos/metoffice/packages/metomi-rose/package.py
++++ b/repos/metoffice/packages/metomi-rose/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class MetomiRose(PythonPackage):
+diff --git a/repos/metoffice/packages/mule/package.py b/repos/metoffice/packages/mule/package.py
+index f2fa15d..7c1426b 100644
+--- a/repos/metoffice/packages/mule/package.py
++++ b/repos/metoffice/packages/mule/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class Mule(PythonPackage):
+diff --git a/repos/metoffice/packages/oasis/package.py b/repos/metoffice/packages/oasis/package.py
+index d1da07b..33ef82c 100644
+--- a/repos/metoffice/packages/oasis/package.py
++++ b/repos/metoffice/packages/oasis/package.py
+@@ -5,7 +5,7 @@
+ 
+ 
+ import os
+-from spack.package import MakefilePackage
++from spack.package import *
+ from llnl.util.filesystem import install_tree
+ 
+ 
+diff --git a/repos/metoffice/packages/perl-b-keywords/package.py b/repos/metoffice/packages/perl-b-keywords/package.py
+index 9ee08f4..67b46bd 100644
+--- a/repos/metoffice/packages/perl-b-keywords/package.py
++++ b/repos/metoffice/packages/perl-b-keywords/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlBKeywords(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-config-inifiles/package.py b/repos/metoffice/packages/perl-config-inifiles/package.py
+index bc80f00..710ddcd 100644
+--- a/repos/metoffice/packages/perl-config-inifiles/package.py
++++ b/repos/metoffice/packages/perl-config-inifiles/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlConfigInifiles(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-config-tiny/package.py b/repos/metoffice/packages/perl-config-tiny/package.py
+index 3478fac..4b14b44 100644
+--- a/repos/metoffice/packages/perl-config-tiny/package.py
++++ b/repos/metoffice/packages/perl-config-tiny/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlConfigTiny(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-critic/package.py b/repos/metoffice/packages/perl-critic/package.py
+index 2c42be5..a3c3c4e 100644
+--- a/repos/metoffice/packages/perl-critic/package.py
++++ b/repos/metoffice/packages/perl-critic/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlCritic(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-file-basedir/package.py b/repos/metoffice/packages/perl-file-basedir/package.py
+index 474a59d..1fa3516 100644
+--- a/repos/metoffice/packages/perl-file-basedir/package.py
++++ b/repos/metoffice/packages/perl-file-basedir/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlFileBasedir(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-file-mimeinfo/package.py b/repos/metoffice/packages/perl-file-mimeinfo/package.py
+index 2a09a86..e23e6f0 100644
+--- a/repos/metoffice/packages/perl-file-mimeinfo/package.py
++++ b/repos/metoffice/packages/perl-file-mimeinfo/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlFileMimeinfo(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-file-which/package.py b/repos/metoffice/packages/perl-file-which/package.py
+index ea02ee3..c1c6e67 100644
+--- a/repos/metoffice/packages/perl-file-which/package.py
++++ b/repos/metoffice/packages/perl-file-which/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlFileWhich(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-list-someutils/package.py b/repos/metoffice/packages/perl-list-someutils/package.py
+index f32ac14..83012b7 100644
+--- a/repos/metoffice/packages/perl-list-someutils/package.py
++++ b/repos/metoffice/packages/perl-list-someutils/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlListSomeutils(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-module-pluggable/package.py b/repos/metoffice/packages/perl-module-pluggable/package.py
+index 365ae0d..5ea5a83 100644
+--- a/repos/metoffice/packages/perl-module-pluggable/package.py
++++ b/repos/metoffice/packages/perl-module-pluggable/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlModulePluggable(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-pod-plaintext/package.py b/repos/metoffice/packages/perl-pod-plaintext/package.py
+index d9e9c4d..555bb06 100644
+--- a/repos/metoffice/packages/perl-pod-plaintext/package.py
++++ b/repos/metoffice/packages/perl-pod-plaintext/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlPodPlaintext(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-pod-select/package.py b/repos/metoffice/packages/perl-pod-select/package.py
+index 8fdfb36..043d772 100644
+--- a/repos/metoffice/packages/perl-pod-select/package.py
++++ b/repos/metoffice/packages/perl-pod-select/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlPodSelect(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-pod-spell/package.py b/repos/metoffice/packages/perl-pod-spell/package.py
+index 5f469a0..4db580e 100644
+--- a/repos/metoffice/packages/perl-pod-spell/package.py
++++ b/repos/metoffice/packages/perl-pod-spell/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlPodSpell(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-ppi/package.py b/repos/metoffice/packages/perl-ppi/package.py
+index d5b546b..f78079d 100644
+--- a/repos/metoffice/packages/perl-ppi/package.py
++++ b/repos/metoffice/packages/perl-ppi/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlPpi(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-ppix-quotelike/package.py b/repos/metoffice/packages/perl-ppix-quotelike/package.py
+index a8c158f..6b56a26 100644
+--- a/repos/metoffice/packages/perl-ppix-quotelike/package.py
++++ b/repos/metoffice/packages/perl-ppix-quotelike/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlPpixQuotelike(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-ppix-regexp/package.py b/repos/metoffice/packages/perl-ppix-regexp/package.py
+index 023129f..97688df 100644
+--- a/repos/metoffice/packages/perl-ppix-regexp/package.py
++++ b/repos/metoffice/packages/perl-ppix-regexp/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlPpixRegexp(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-ppix-utilities/package.py b/repos/metoffice/packages/perl-ppix-utilities/package.py
+index fb47821..3e502d7 100644
+--- a/repos/metoffice/packages/perl-ppix-utilities/package.py
++++ b/repos/metoffice/packages/perl-ppix-utilities/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlPpixUtilities(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-string-format/package.py b/repos/metoffice/packages/perl-string-format/package.py
+index 12bfe52..e32121a 100644
+--- a/repos/metoffice/packages/perl-string-format/package.py
++++ b/repos/metoffice/packages/perl-string-format/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlStringFormat(PerlPackage):
+diff --git a/repos/metoffice/packages/perl-tidy/package.py b/repos/metoffice/packages/perl-tidy/package.py
+index 5ab40c2..cb15f19 100644
+--- a/repos/metoffice/packages/perl-tidy/package.py
++++ b/repos/metoffice/packages/perl-tidy/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PerlPackage
++from spack.package import *
+ 
+ 
+ class PerlTidy(PerlPackage):
+diff --git a/repos/metoffice/packages/py-configurable-http-proxy/package.py b/repos/metoffice/packages/py-configurable-http-proxy/package.py
+index 0571246..86b8c7d 100644
+--- a/repos/metoffice/packages/py-configurable-http-proxy/package.py
++++ b/repos/metoffice/packages/py-configurable-http-proxy/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PyConfigurableHttpProxy(PythonPackage):
+diff --git a/repos/metoffice/packages/py-fparser/package.py b/repos/metoffice/packages/py-fparser/package.py
+index 526adba..37bacf8 100644
+--- a/repos/metoffice/packages/py-fparser/package.py
++++ b/repos/metoffice/packages/py-fparser/package.py
+@@ -10,6 +10,7 @@ Extending the recipe may be required when we need to deploy a new fparser
+ release but the upstream repository does not yet have the changes merged."""
+ 
+ from importlib import import_module
++from spack.package import *
+ 
+ fparser = import_module("spack.pkg.builtin.py-fparser")
+ 
+diff --git a/repos/metoffice/packages/py-psyclone/package.py b/repos/metoffice/packages/py-psyclone/package.py
+index 91568e2..aab9795 100644
+--- a/repos/metoffice/packages/py-psyclone/package.py
++++ b/repos/metoffice/packages/py-psyclone/package.py
+@@ -10,6 +10,7 @@ Extending the recipe may be required when we need to deploy a new PSyclone
+ release but the upstream repository does not yet have the changes merged."""
+ 
+ from importlib import import_module
++from spack.package import *
+ 
+ psyclone = import_module("spack.pkg.builtin.py-psyclone")
+ 
+diff --git a/repos/metoffice/packages/py-sphinx-sitemap/package.py b/repos/metoffice/packages/py-sphinx-sitemap/package.py
+index 488762a..e7262a3 100644
+--- a/repos/metoffice/packages/py-sphinx-sitemap/package.py
++++ b/repos/metoffice/packages/py-sphinx-sitemap/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PySphinxSitemap(PythonPackage):
+diff --git a/repos/metoffice/packages/py-stylist/package.py b/repos/metoffice/packages/py-stylist/package.py
+index 6672256..f34eb0f 100644
+--- a/repos/metoffice/packages/py-stylist/package.py
++++ b/repos/metoffice/packages/py-stylist/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PyStylist(PythonPackage):
+diff --git a/repos/metoffice/packages/py-um-packing/package.py b/repos/metoffice/packages/py-um-packing/package.py
+index 241a3b6..0ed576b 100755
+--- a/repos/metoffice/packages/py-um-packing/package.py
++++ b/repos/metoffice/packages/py-um-packing/package.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+ import shutil
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PyUmPacking(PythonPackage):
+diff --git a/repos/metoffice/packages/py-um-ppibm/package.py b/repos/metoffice/packages/py-um-ppibm/package.py
+index 530a857..b7e7276 100755
+--- a/repos/metoffice/packages/py-um-ppibm/package.py
++++ b/repos/metoffice/packages/py-um-ppibm/package.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+ import shutil
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PyUmPpibm(PythonPackage):
+diff --git a/repos/metoffice/packages/py-um-spiral-search/package.py b/repos/metoffice/packages/py-um-spiral-search/package.py
+index 46cf222..ec85c77 100755
+--- a/repos/metoffice/packages/py-um-spiral-search/package.py
++++ b/repos/metoffice/packages/py-um-spiral-search/package.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+ import shutil
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PyUmSpiralSearch(PythonPackage):
+diff --git a/repos/metoffice/packages/py-um-sstpert/package.py b/repos/metoffice/packages/py-um-sstpert/package.py
+index 393e40e..9d5344b 100755
+--- a/repos/metoffice/packages/py-um-sstpert/package.py
++++ b/repos/metoffice/packages/py-um-sstpert/package.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+ import shutil
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PyUmSstpert(PythonPackage):
+diff --git a/repos/metoffice/packages/py-um-utils/package.py b/repos/metoffice/packages/py-um-utils/package.py
+index 621d8d3..5e11b30 100755
+--- a/repos/metoffice/packages/py-um-utils/package.py
++++ b/repos/metoffice/packages/py-um-utils/package.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+ import shutil
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PyUmUtils(PythonPackage):
+diff --git a/repos/metoffice/packages/py-um-wafccb/package.py b/repos/metoffice/packages/py-um-wafccb/package.py
+index 07d9548..1dd5663 100755
+--- a/repos/metoffice/packages/py-um-wafccb/package.py
++++ b/repos/metoffice/packages/py-um-wafccb/package.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+ import shutil
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class PyUmWafccb(PythonPackage):
+diff --git a/repos/metoffice/packages/rose-picker/package.py b/repos/metoffice/packages/rose-picker/package.py
+index 95a4570..3e59a1e 100644
+--- a/repos/metoffice/packages/rose-picker/package.py
++++ b/repos/metoffice/packages/rose-picker/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ from llnl.util.filesystem import install_tree
+ 
+ 
+diff --git a/repos/metoffice/packages/sci-fab/package.py b/repos/metoffice/packages/sci-fab/package.py
+index 9347087..432cc08 100755
+--- a/repos/metoffice/packages/sci-fab/package.py
++++ b/repos/metoffice/packages/sci-fab/package.py
+@@ -3,7 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+-from spack.package import PythonPackage
++from spack.package import *
+ 
+ 
+ class SciFab(PythonPackage):
+diff --git a/repos/metoffice/packages/shumlib/package.py b/repos/metoffice/packages/shumlib/package.py
+index 8135b98..42e12b3 100644
+--- a/repos/metoffice/packages/shumlib/package.py
++++ b/repos/metoffice/packages/shumlib/package.py
+@@ -5,7 +5,7 @@
+ 
+ import os
+ import shutil
+-from spack.package import MakefilePackage
++from spack.package import *
+ 
+ 
+ class Shumlib(MakefilePackage):
+diff --git a/repos/metoffice/packages/vernier/package.py b/repos/metoffice/packages/vernier/package.py
+index cf73760..e530b99 100644
+--- a/repos/metoffice/packages/vernier/package.py
++++ b/repos/metoffice/packages/vernier/package.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+ import os
+-from spack.package import CMakePackage
++from spack.package import *
+ 
+ 
+ class Vernier(CMakePackage):
+diff --git a/repos/metoffice/packages/xios/package.py b/repos/metoffice/packages/xios/package.py
+index 26707d6..01e8836 100644
+--- a/repos/metoffice/packages/xios/package.py
++++ b/repos/metoffice/packages/xios/package.py
+@@ -3,6 +3,7 @@
+ #
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
++from spack.package import *
+ from spack.pkg.builtin.xios import Xios as BaseXios
+ from llnl.util import tty
+ 
+diff --git a/repos/metoffice/packages/yaxt/package.py b/repos/metoffice/packages/yaxt/package.py
+index 063959b..c9a58cc 100755
+--- a/repos/metoffice/packages/yaxt/package.py
++++ b/repos/metoffice/packages/yaxt/package.py
+@@ -4,7 +4,7 @@
+ # SPDX-License-Identifier: (Apache-2.0 OR MIT)
+ 
+ 
+-from spack.package import AutotoolsPackage
++from spack.package import *
+ 
+ 
+ class Yaxt(AutotoolsPackage):

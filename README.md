@@ -49,6 +49,12 @@ packages:
 ```
 Choose the right "cuda_arch" by using: https://developer.nvidia.com/cuda-gpus
 
+V100 -> 70
+A100 -> 80
+H100 -> 90
+3060ti -> 86
+4050 -> 89
+
 If your system needs specific installations e.g. cuda for WSL or MPI with
 specific system configurations, also add them here:
 ```
@@ -124,7 +130,7 @@ dependencies without preferring the already installed packages:
 Currently for lfric we need to be specific about which mpi version to use
 otherwise the toolchain will use a mix of them:
 ```bash
-spack install lfric-build-environment%nvhpc ^openmpi%nvhpc
+spack install lfric-build-environment%nvhpc ^openmpi@4.0+cuda%nvhpc
 ```
 
 Once installed, a package can be, found, loaded and its files located with:
