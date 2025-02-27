@@ -64,7 +64,7 @@ class Fcm(Package):
     depends_on("perl-dbd-sqlite")
     depends_on("perl-digest-md5")
     depends_on("perl-time-piece")
-    depends_on("perl-tk")
+    # depends_on("perl-tk")
     depends_on("perl-xml-parser")
     depends_on("rsync")
     depends_on("subversion")

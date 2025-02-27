@@ -23,6 +23,14 @@ before, but you can also use external installations. To use the submodules do:
 git submodule update --init
 ```
 
+Currently some patches are required for each repository:
+```
+cd simit-spack
+patch -p1 < ../simit-spack.patch 
+cd ../spack-repo
+patch -p1 < ../spack-repo.patch 
+```
+
 Now, add Spack to your environment with:
 ```bash
 source ${PWD}/spack-repo/share/spack/setup-env.sh
@@ -111,7 +119,7 @@ installed specifying the same compiler for the mpi. For instance:
 `spack install xios%nvhpc ^openmpi%nvhpc`
 - rose_picker: The repository is password-protected, this repo distributes the
 source in a tar file.
-- fcm: Skips one perl dependency that can't be compiled with latest gcc.
+- fcm: Skips perl dependency that can't be compiled in some systems.
 
 ## Spack Usage
 
@@ -130,7 +138,7 @@ dependencies without preferring the already installed packages:
 Currently for lfric we need to be specific about which mpi version to use
 otherwise the toolchain will use a mix of them:
 ```bash
-spack install lfric-build-environment%nvhpc ^openmpi@4.0+cuda%nvhpc
+spack install lfric-build-environment%nvhpc ^openmpi@4.1+cuda%nvhpc
 ```
 
 Once installed, a package can be, found, loaded and its files located with:
