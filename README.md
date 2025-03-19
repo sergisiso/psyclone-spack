@@ -39,19 +39,10 @@ source ${PWD}/spack-repo/share/spack/setup-env.sh
 Then configure Spack settings, config files can be added to:
   - ${PWD}/spack-repo/etc/spack/ to affect only this spack instance but for all users.
   - or ~/.spack/ to affect all spack instances but only for this user.
-In the one you choose add a `packages.yaml` with:
+
+First use `spack external find`, to use system libraries when this are available, then
+make the necesary changes to the generated `packages.yaml`, for example adding:
 ```
-packages:
-    openssl:
-        buildable: false
-        externals:
-        - spec: openssl@`openssl version | awk '{print $2}'`
-          prefix: /usr
-    subversion:
-        buildable: false
-        externals:
-        - spec: subversion@1.14
-          prefix: /usr
     all:
         variants: cuda_arch=70
 ```
