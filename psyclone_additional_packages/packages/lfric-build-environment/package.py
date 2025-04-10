@@ -8,9 +8,7 @@ class LfricBuildEnvironment(BundlePackage):
     CC, CXX, FPP, LDMPI, FFLAGS, LDFLAGS and LD_LIBRARY_PATH).
    
     """
-    version("2689")
-
-    variant("xios", default=True, description="Enable XIOS support")
+    version("25.04")
 
     depends_on("mpi")
     depends_on("netcdf-fortran")
@@ -20,8 +18,7 @@ class LfricBuildEnvironment(BundlePackage):
     depends_on("rose-picker", type="run")
     depends_on("py-jinja2", type="run")
 
-    # XIOS can be disabled with -xios
-    # depends_on("xios@2.5.2252", when="+xios")
+    variant("xios", default=True, description="Enable XIOS support")
     depends_on("xios", when="+xios")
 
     def setup_run_environment(self, env):
@@ -30,6 +27,11 @@ class LfricBuildEnvironment(BundlePackage):
         env.set('CXX', self.compiler.cxx)
         env.set('FPP', "cpp -traditional-cpp")
         env.set('LDMPI', self.spec["mpi"].mpifc)
+
+        # Clean up build flags (without this 'spack unload' doesn't remove them)
+        env.set('FFLAGS', "")
+        env.set('LDFLAGS', "")
+        env.set('LD_LIBRARY_PATH', "")
 
         env.append_flags("FFLAGS", self.spec["mpi"].headers.include_flags)
         env.append_flags("FFLAGS", self.spec["mpi"].headers.include_flags + "/../lib")
