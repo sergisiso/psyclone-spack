@@ -118,20 +118,20 @@ class Xios(BaseXios):
         elif spec.satisfies("%nvhpc"):
             # Overrides for nvidia
             param["CPP"] = "gcc"
-            param["FPP"] = "gcc"
             param["CFLAGS"] = "-w"
+        param["FPP"] = "gcc"
 
         # Note: removed "%intel", "%apple-clang", "%clang", "%fj" from
         # the list on the assumption that the flags will need changing
         # to work with these compilers
-        if any(map(spec.satisfies, ("%gcc",  "%cce", "%nvhpc"))):
+        if any(map(spec.satisfies, ("%gcc",  "%cce", "%nvhpc", "%oneapi"))):
             text = r"""
 %CCOMPILER      {MPICXX}
 %FCOMPILER      {MPIFC}
 %LINKER         {MPIFC}
 
 %BASE_CFLAGS    {CFLAGS} \
-                -I{BOOST_INC_DIR} -std=c++11
+                -I{BOOST_INC_DIR} -std=c++14
 %PROD_CFLAGS    -O3 -DBOOST_DISABLE_ASSERTS
 %DEV_CFLAGS     -g -O2
 %DEBUG_CFLAGS   -g

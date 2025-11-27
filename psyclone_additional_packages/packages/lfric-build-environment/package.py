@@ -17,6 +17,7 @@ class LfricBuildEnvironment(BundlePackage):
     depends_on("fcm")
     depends_on("rose-picker", type="run")
     depends_on("py-jinja2", type="run")
+    depends_on("shumlib")
 
     variant("xios", default=True, description="Enable XIOS support")
     depends_on("xios", when="+xios")
@@ -43,12 +44,14 @@ class LfricBuildEnvironment(BundlePackage):
         env.append_flags("LDFLAGS", self.spec["netcdf-c"].libs.ld_flags)
         env.append_flags("LDFLAGS", self.spec["hdf5"].libs.ld_flags)
         env.append_flags("LDFLAGS", self.spec["yaxt"].libs.ld_flags)
+        env.append_flags("LDFLAGS", "-L" + self.spec["shumlib"].prefix + "/lib")
 
         env.append_path("LD_LIBRARY_PATH", self.spec["mpi"].prefix.lib)
         env.append_path("LD_LIBRARY_PATH", self.spec["netcdf-fortran"].prefix.lib)
         env.append_path("LD_LIBRARY_PATH", self.spec["netcdf-c"].prefix.lib)
         env.append_path("LD_LIBRARY_PATH", self.spec["hdf5"].prefix.lib)
         env.append_path("LD_LIBRARY_PATH", self.spec["yaxt"].prefix.lib)
+        env.append_path("LD_LIBRARY_PATH", self.spec["shumlib"].prefix.lib)
 
         if "xios" in self.spec:
             env.append_flags("FFLAGS", self.spec["xios"].headers.include_flags)
