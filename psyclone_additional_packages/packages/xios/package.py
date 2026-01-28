@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: (Apache-2.0 OR MIT)
 
 from spack.package import *
-from spack.pkg.builtin.xios import Xios as BaseXios
+from spack_repo.builtin.packages.xios.package import Xios as BaseXios
 
 
 class Xios(BaseXios):
@@ -15,8 +15,14 @@ class Xios(BaseXios):
     # http://forge.ipsl.jussieu.fr/ioserver/svan/XIOS/trunk revision=2252
     # https://forge.ipsl.jussieu.fr/ioserver/browser/XIOS2
 
-    version("develop", svn="http://forge.ipsl.jussieu.fr/ioserver/svn/XIOS2/trunk")
+    version("develop", svn="https://forge.ipsl.fr/ioserver/svn/XIOS2/trunk")
+    version(
+        "2.6",
+        revision=2714,
+        svn="https://forge.ipsl.fr/ioserver/svn/XIOS2/branches/xios-2.6",
+    )
     version("2.5.2252", revision=2252,  svn="http://forge.ipsl.jussieu.fr/ioserver/svn/XIOS2/trunk")
+    version("2252", revision=2252, svn="https://forge.ipsl.fr/ioserver/svn/XIOS2/trunk")
 
     depends_on("blitz")
     depends_on("subversion", type="build")
@@ -63,10 +69,10 @@ class Xios(BaseXios):
                 "src/node/mesh.cpp",
                 backup=True,
             )
-            filter_file(r"^(#include\s*<memory>\s*)$",
-                        "#include <array>\n\\1",
-                        "extern/remap/src/earcut.hpp",
-                        backup=True)
+        filter_file(r"^(#include\s*<memory>\s*)$",
+                    "#include <array>\n\\1",
+                    "extern/remap/src/earcut.hpp",
+                    backup=True)
 
         filter_file(r"//#include <cstdint>",
                     "#include <cstdint>",
@@ -112,9 +118,12 @@ class Xios(BaseXios):
         else:
             param["LIBCXX"] = "-lstdc++"
 
-        if spec.satisfies("%gcc"):
+        if spec.satisfies("%llvm"):
             # Allow long lines in gfortran
-            param["FFLAGS"] = "-ffree-line-length-none"
+            param["FFLAGS"] = ""
+            param["CPP"] = "gcc"
+            param["MPICXX"] = "/archive/psyclone-spack/psyclone-spack-Dec25/spack-repo/opt/spack/linux-zen5/openmpi-5.0.8-z3fhemawdpxck6qjtdnw7nd6cvtkd446/bin/mpic++"
+            param["CFLAGS"] = "-w"
         elif spec.satisfies("%nvhpc"):
             # Overrides for nvidia
             param["CPP"] = "gcc"
@@ -124,14 +133,14 @@ class Xios(BaseXios):
         # Note: removed "%intel", "%apple-clang", "%clang", "%fj" from
         # the list on the assumption that the flags will need changing
         # to work with these compilers
-        if any(map(spec.satisfies, ("%gcc",  "%cce", "%nvhpc", "%oneapi"))):
+        if any(map(spec.satisfies, ("%gcc",  "%cce", "%nvhpc", "%oneapi", "%llvm"))):
             text = r"""
 %CCOMPILER      {MPICXX}
 %FCOMPILER      {MPIFC}
 %LINKER         {MPIFC}
 
 %BASE_CFLAGS    {CFLAGS} \
-                -I{BOOST_INC_DIR} -std=c++14
+                -I{BOOST_INC_DIR} -I{BLITZ_INC_DIR} -std=c++14
 %PROD_CFLAGS    -O3 -DBOOST_DISABLE_ASSERTS
 %DEV_CFLAGS     -g -O2
 %DEBUG_CFLAGS   -g
@@ -142,7 +151,7 @@ class Xios(BaseXios):
 %DEBUG_FFLAGS   -g
 
 %BASE_INC       -D__NONE__
-%BASE_LD        -L{BOOST_LIB_DIR} {LIBCXX}
+%BASE_LD        -L{BOOST_LIB_DIR} -L{BLITZ_LIB_DIR} {LIBCXX}
 
 %CPP            {CPP} -E
 %FPP            {FPP} -E -P -x c

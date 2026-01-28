@@ -23,17 +23,23 @@ before, but you can also use external installations. To use the submodules do:
 git submodule update --init
 ```
 
+Now, add Spack to your environment with:
+```bash
+source ${PWD}/spack-repo/share/spack/setup-env.sh
+```
+
+Set the location of the builtin packages:
+```
+spack repo set --destination $PWD/package_repos/ builtin
+spack bootstrap now
+```
+
 Currently some patches are required for each repository:
 ```
 cd simit-spack
 patch -p1 < ../simit-spack.patch 
-cd ../spack-repo
-patch -p1 < ../spack-repo.patch 
-```
-
-Now, add Spack to your environment with:
-```bash
-source ${PWD}/spack-repo/share/spack/setup-env.sh
+cd ../package_repos
+patch -p1 < ../package_repos.patch
 ```
 
 Then configure Spack settings, config files can be added to:
@@ -71,27 +77,23 @@ To install the compilers use:
 spack install gcc +nvptx
 spack install intel-oneapi-compilers
 spack install nvhpc
-spack install aocc
-spack install llvm +cuda +flang +libomptarget +libomptarget_debug +mlir
+spack install llvm-amdgpu
 ```
+Alternatively use `spack compiler find` (and edit the `packages.yaml` as needed).
+Once done create a `toolchain.yaml` with each toolchain, e.g:
 
-Then set up each compiler to be used to build other Spack packages, for this
-you first need to load each of them (e.g. `spack load nvhpc`) and then run:
-```bash
-spack compiler find
-spack compilers
 ```
-You can also edit the flags in `spack config edit compilers`. For example adding:
+toolchains:
+  gnu14_openmpi:
+  - spec: "%c=gcc@14"
+    when: "%c"
+  - spec: "%cxx=gcc@14"
+    when: "%cxx"
+  - spec: "%fortran=gcc@14"
+    when: "%fortran"
+  - spec: "%mpi=openmpi@5"
+    when: "%mpi"
 ```
-    flags:
-      cflags: -O2 -g -fno-omit-frame-pointer
-      fflags: -O2 -g -fno-omit-frame-pointer
-      cxxflags: -O2 -g -fno-omit-frame-pointer
-      cppflags: -O2 -g -fno-omit-frame-pointer
-      ldflags: -O2 -g -fno-omit-frame-pointer
-```
-to add debug symbols and frame pointers to all installed packages. By default this
-will be in `~/.spack/linux/compiler.yaml`, you can move it to `spack-repo/etc/spack/`.
 
 Not all necessary software is available on the Spack upstream repository, and some
 of the available packages need patches. Add the additional packages needed by doing

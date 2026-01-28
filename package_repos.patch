@@ -1,0 +1,15 @@
+diff --git a/repos/spack_repo/builtin/packages/hdf5/package.py b/repos/spack_repo/builtin/packages/hdf5/package.py
+index 3fc1e77b..d505453e 100644
+--- a/repos/spack_repo/builtin/packages/hdf5/package.py
++++ b/repos/spack_repo/builtin/packages/hdf5/package.py
+@@ -591,9 +591,7 @@ class Hdf5(CMakePackage):
+         if spec.satisfies("@1.10.8,1.13.0"):
+             args.append(self.define("HDF5_INSTALL_CMAKE_DIR", "share/cmake/hdf5"))
+ 
+-        # AOCC does not support _Float16
+-        if spec.satisfies("@1.14.4: %aocc"):
+-            args.append(self.define("HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16", False))
++        args.append(self.define("HDF5_ENABLE_NONSTANDARD_FEATURE_FLOAT16", False))
+ 
+         return args
+ 

@@ -8,19 +8,23 @@ class LfricBuildEnvironment(BundlePackage):
     CC, CXX, FPP, LDMPI, FFLAGS, LDFLAGS and LD_LIBRARY_PATH).
    
     """
-    version("25.04")
+    version("latest")
+
+    # Needed to populate the environment variables
+    depends_on("c", type="run")
+    depends_on("cxx", type="run")
+    depends_on("fortran", type="run")
 
     depends_on("mpi")
     depends_on("netcdf-fortran")
     depends_on("yaxt")
     depends_on("pfunit")
+    depends_on("py-pyyaml")
     depends_on("fcm")
     depends_on("rose-picker", type="run")
     depends_on("py-jinja2", type="run")
     depends_on("shumlib")
-
-    variant("xios", default=True, description="Enable XIOS support")
-    depends_on("xios", when="+xios")
+    depends_on("xios@2252")
 
     def setup_run_environment(self, env):
         env.set('FC', self.compiler.fc)

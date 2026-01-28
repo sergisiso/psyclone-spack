@@ -7,16 +7,20 @@ class NemoBuildEnvironment(BundlePackage):
     NemoBuildEnvironment contains everything needed to build NEMO.
     """
 
-    version("25.04")
-    variant("xios", default=True, description="Enable XIOS support")
+    version("latest")
 
+    # Needed to populate the environment variables
+    depends_on("c", type="run")
+    depends_on("cxx", type="run")
+    depends_on("fortran", type="run")
     depends_on("perl", type="run")
+
     depends_on("perl-uri")
     depends_on("netcdf-c+mpi")
     depends_on("netcdf-fortran")
     depends_on("hdf5+mpi")
     depends_on("mpi")
-    depends_on("xios", when="+xios")
+    depends_on("xios")
 
     def setup_run_environment(self, env):
         """ Set-up the environment variables that the arch files use. """
