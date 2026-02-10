@@ -40,6 +40,7 @@ class NemoBuildEnvironment(BundlePackage):
 
         env.append_path("LD_LIBRARY_PATH", self.spec["netcdf-fortran"].prefix.lib)
         env.append_path("LD_LIBRARY_PATH", self.spec["netcdf-c"].prefix.lib)
+        env.append_path("LD_LIBRARY_PATH", os.path.dirname(self.compiler.fc) + "/../lib")
         env.append_path("PERL5LIB", self.spec["perl-uri"].prefix.lib + "/perl5")
         if "xios" in self.spec:
             env.set("XIOS_HOME", self.spec["xios"].prefix)
